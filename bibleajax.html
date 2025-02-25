@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bible Search Test Form</title>
+<style>
+  body {
+    font-family: Times New Roman, serif;
+    margin: 20px;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 18px; /* For section headings */
+  }
+  hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  table {
+    margin-bottom: 15px;
+  }
+  td {
+    padding: 5px 10px 5px 0;
+    text-align: right;
+    font-size: 16px;
+  }
+  td + td {
+    text-align: left;
+  }
+  input[type="text"] {
+    padding: 3px;
+    width: 150px;
+    font-size: 16px;
+  }
+  select {
+    padding: 3px;
+    width: 150px;
+    font-size: 16px;
+  }
+  #response_area {
+    margin-top: 20px;
+  }
+  input[type="submit"] {
+    font-size: 16px;
+    padding: 3px 10px;
+  }
+</style>
+
+</head>
+
+<script type="text/javascript">
+var XMLHttp;
+if(navigator.appName == "Microsoft Internet Explorer") {
+        XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+} else {
+        XMLHttp = new XMLHttpRequest();
+}
+
+function getresponse() {
+    // Check if search type is selected
+    searchType = document.querySelector('input[name="search_type"]:checked');
+    if (searchType == null) {
+        alert("Please select a search type!");
+        return;
+    }
+    
+    XMLHttp.open("GET", "/class/csc3004/aikbarahira/cgi-bin/bibleajax.cgi?"
+            + "search_type=" + searchType.value
+            + "&book=" + document.getElementById('book').value
+            + "&chapter=" + document.getElementById('chapter').value
+            + "&verse=" + document.getElementById('verse').value
+            + "&num_verse=" + document.getElementById('num_verse').value,
+            true);
+            
+    XMLHttp.onreadystatechange = function() {
+        if (XMLHttp.readyState == XMLHttp.DONE)
+            document.getElementById('response_area').innerHTML = XMLHttp.responseText;
+    }
+    
+    XMLHttp.send(null);
+}
+</script>
+
+<body>
+<h1>Bible Search Test Form</h1>
+
+<h3>Select which type of search you would like to perform:</h3>
+<table>
+<tr>
+    <td><input name="search_type" type="radio" id="reference" value="reference"></td>
+    <td>Verse lookup by <i>reference</i></td>
+    
+    <td><input name="search_type" type="radio" id="keyword" value="keyword" checked></td>
+    <td>Verse lookup by <i>keyword</i></td>
+    
+    <td><input name="search_type" type="radio" id="vines" value="vines"></td>
+    <td><i>Vines</i> topical dictionary</td>
+</tr>
+</table>
+
+<hr>
+
+<table>
+<tr>
+    <td>Book</td>
+    <td>
+        <select name="book" id="book">
+            <option value="1">Genesis</option>
+            <option value="2">Exodus</option>
+            <option value="3">Leviticus</option>
+            <option value="4">Numbers</option>
+            <option value="5">Deuteronomy</option>
+            <option value="6">Joshua</option>
+            <option value="7">Judges</option>
+            <option value="8">Ruth</option>
+            <option value="9">1st Samuel</option>
+            <option value="10">2nd Samuel</option>
+            <option value="11">1st Kings</option>
+            <option value="12">2nd Kings</option>
+            <option value="13">1st Chronicles</option>
+            <option value="14">2nd Chronicles</option>
+            <option value="15">Ezra</option>
+            <option value="16">Nehemiah</option>
+            <option value="17">Esther</option>
+            <option value="18">Job</option>
+            <option value="19">Psalms</option>
+            <option value="20">Proverbs</option>
+            <option value="21">Ecclesiastes</option>
+            <option value="22">Song of Solomon</option>
+            <option value="23">Isaiah</option>
+            <option value="24">Jeremiah</option>
+            <option value="25">Lamentations</option>
+            <option value="26">Ezekiel</option>
+            <option value="27">Daniel</option>
+            <option value="28">Hosea</option>
+            <option value="29">Joel</option>
+            <option value="30">Amos</option>
+            <option value="31">Obadiah</option>
+            <option value="32">Jonah</option>
+            <option value="33">Micah</option>
+            <option value="34">Nahum</option>
+            <option value="35">Habakkuk</option>
+            <option value="36">Zephaniah</option>
+            <option value="37">Haggai</option>
+            <option value="38">Zechariah</option>
+            <option value="39">Malachi</option>
+            <option value="40">Matthew</option>
+            <option value="41">Mark</option>
+            <option value="42">Luke</option>
+            <option value="43">John</option>
+            <option value="44">Acts</option>
+            <option value="45">Romans</option>
+            <option value="46">1st Corinthians</option>
+            <option value="47">2nd Corinthians</option>
+            <option value="48">Galatians</option>
+            <option value="49">Ephesians</option>
+            <option value="50">Philippians</option>
+            <option value="51">Colossians</option>
+            <option value="52">1st Thessalonians</option>
+            <option value="53">2nd Thessalonians</option>
+            <option value="54">1st Timothy</option>
+            <option value="55">2nd Timothy</option>
+            <option value="56">Titus</option>
+            <option value="57">Philemon</option>
+            <option value="58">Hebrews</option>
+            <option value="59">James</option>
+            <option value="60">1st Peter</option>
+            <option value="61">2nd Peter</option>
+            <option value="62">1st John</option>
+            <option value="63">2nd John</option>
+            <option value="64">3rd John</option>
+            <option value="65">Jude</option>
+            <option value="66">Revelation</option>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td>Chapter</td>
+    <td><input name="chapter" type="text" id="chapter" value="1"></td>
+</tr>
+<tr>
+    <td>Verse</td>
+    <td><input name="verse" type="text" id="verse" value="1"></td>
+</tr>
+<tr>
+    <td>Number of verses</td>
+    <td><input name="num_verse" type="text" id="num_verse" value="1"></td>
+</tr>
+</table>
+
+<input type="submit" onclick="getresponse()" value="submit">
+
+<hr>
+
+<div id="response_area">
+<!-- Response will appear here -->
+</div>
+
+</body>
+</html>
