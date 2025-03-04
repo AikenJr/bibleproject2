@@ -1,35 +1,95 @@
 #include "Bible.h"
-#include "Ref.h"  
+#include "Ref.h" 
 #include "Verse.h"
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+#include <sstream>
 
 Bible::Bible() {
     infile = "/home/class/csc3004/Bibles/web-complete";
+    buildIndex();
 }
 
-Bible::Bible(const string s) { infile = s; }
+Bible::Bible(const string s) { 
+    infile = s;
+    buildIndex();
+}
 
-Verse Bible::lookup(Ref ref, LookupResult& status) {
+// Build the reference index
+void Bible::buildIndex() {
     ifstream in(infile.c_str());
     if (!in) {
+        cout << "Error: Unable to open Bible file for indexing: " << infile << endl;
+        return;
+    }
+    string line;
+    long position;
+    // Process each line in the file
+    while (in.good()) {
+        // Get the current position in the file before reading the line
+        position = in.tellg();
+        // Read the next line
+        if (!getline(in, line)) {
+            break;
+        }
+        Verse verse(line);
+        Ref ref = verse.getRef();
+        // Only add to index if it's a valid reference
+        if (ref.getBook() > 0) {
+            indexMap[ref] = position;
+        }
+    }
+    in.close();
+}
+
+Verse Bible::retrieveVerse(ifstream &in, const Ref &ref, long position, LookupResult& status) {
+    if (position < 0 || !in) {
         status = FILE_ERROR;
         return Verse();
     }
-
+    
+    // Seek to the position in the file
+    in.seekg(position);
+    
+    // Read the verse line
     string line;
-    while (getline(in, line)) {
+    if (getline(in, line)) {
         Verse verse(line);
+        
+        // Verify this is the correct verse
         if (verse.getRef() == ref) {
             status = SUCCESS;
             return verse;
         }
     }
-
+    
     status = NO_VERSE;
     return Verse();
+}
+
+Verse Bible::lookup(Ref ref, LookupResult& status) {
+    // Check if the reference exists in the index
+    long position = getRefPosition(ref);
+    if (position < 0) {
+        // Reference not in index, determine why
+        if (ref.getBook() <= 0 || ref.getBook() > 66) {
+            status = NO_BOOK;
+        } else {
+//only checks for verse validity
+            status = NO_VERSE;
+        }
+        return Verse();
+    }
+    // Open the Bible file
+    ifstream in(infile.c_str());
+    if (!in) {
+        status = FILE_ERROR;
+        return Verse();
+    }
+    // Retrieve the verse from the position
+    return retrieveVerse(in, ref, position, status);
 }
 
 Verse Bible::nextVerse(LookupResult& status) {
@@ -37,9 +97,39 @@ Verse Bible::nextVerse(LookupResult& status) {
     return Verse();
 }
 
+Ref Bible::next(const Ref ref, LookupResult& status) {
+    // Find the current reference in the index
+    auto it = indexMap.find(ref);
+    if (it == indexMap.end()) {
+        // Reference not found, try to find the next closest one
+        it = indexMap.lower_bound(ref);
+        if (it == indexMap.end()) {
+            // No reference found after the given reference
+            status = NO_VERSE;
+            return Ref();
+        }
+    } else {
+        // Found the reference, move to the next one
+        ++it;
+        if (it == indexMap.end()) {
+            // This was the last reference
+            status = NO_VERSE;
+            return Ref();
+        }
+    }
+    // Return the next reference
+    status = SUCCESS;
+    return it->first;
+}
+
+Ref Bible::prev(const Ref ref, LookupResult& status) {
+    status = NO_VERSE;
+    return ref;
+}
+
 string Bible::getBookName(int bookNumber) {
     static const map<int, string> bookMap = {
-	{1, "Genesis"},
+        {1, "Genesis"},
         {2, "Exodus"},
         {3, "Leviticus"},
         {4, "Numbers"},
@@ -128,14 +218,27 @@ string Bible::error(LookupResult status) {
 
 void Bible::display() {
     cout << "Bible file: " << infile << endl;
+    cout << "Index contains " << indexMap.size() << " verses" << endl;
 }
 
-Ref Bible::next(const Ref ref, LookupResult& status) {
-    status = NO_VERSE;
-    return ref;
+// Index-related utility functions
+int Bible::getIndexSize() const {
+    return indexMap.size();
 }
 
-Ref Bible::prev(const Ref ref, LookupResult& status) {
-    status = NO_VERSE;
-    return ref;
+long Bible::getLastIndexPosition() const {
+    if (indexMap.empty()) {
+        return -1;
+    }
+    // Get the last element in the map
+    auto lastElement = indexMap.rbegin();
+    return lastElement->second;
+}
+
+long Bible::getRefPosition(const Ref &ref) const {
+    auto it = indexMap.find(ref);
+    if (it != indexMap.end()) {
+        return it->second;
+    }
+    return -1;  // Reference not found in index
 }

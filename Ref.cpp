@@ -56,6 +56,21 @@ bool Ref::operator==(const Ref& r) const {
     return (book == r.book && chap == r.chap && verse == r.verse);
 }
 
+// Less than operator for map functionality
+bool Ref::operator<(const Ref& r) const {
+
+    // First compare book numbers
+    if (book < r.book) return true;
+    if (book > r.book) return false;
+
+    // Same book, compare chapter numbers
+    if (chap < r.chap) return true;
+    if (chap > r.chap) return false;
+
+    // Same book and chapter, compare verse numbers
+    return verse < r.verse;
+}
+
 void Ref::display() const {
     cout << getBookName(book) << " " << chap << ":" << verse;
 }

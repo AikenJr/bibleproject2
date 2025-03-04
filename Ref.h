@@ -20,6 +20,7 @@ public:
    int getVerse() const; //access the verse
 
    bool operator==(const Ref&) const;
+   bool operator<(const Ref&) const;  // Less than operator for map functionality
    void display() const;
 };
 
