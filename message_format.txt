@@ -1,0 +1,159 @@
+Bible Verse Lookup Message Format
+
+Request Pipe Format (Client → Server):
+book:chapter:verse[:count]
+
+Examples:
+1:1:1      (Genesis 1:1, single verse)
+43:3:16    (John 3:16, single verse)
+19:19:1:6  (Psalm 19, verses 1-6)
+
+- The first three fields (book, chapter, verse) are mandatory integers.
+- The fourth field (count) is optional and specifies how many verses to retrieve.
+- All fields are separated by colons.
+
+Reply Pipe Format (Server → Client):
+aikbarahira@cona:~/project2$ ls -l /home/class/csc3004/shakespearelookup/
+total 184
+-rwxr-xr-x 1 debwilson debwilson 35660 Feb 15  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson  3040 Feb 15  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson  1600 Feb 12  2022 fifo.h
+-rwxr-xr-x 1 debwilson debwilson  2568 Feb 16  2023 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson   758 Feb 15  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson  1135 Feb 12  2022 logfile.h
+-rwxr-xr-x 1 debwilson debwilson  1537 Feb 15  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson  1281 Feb 15  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson  5532 Feb 15  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson  2122 Feb 12  2022 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  1302 Feb 15  2018 sslookup.html
+-rwxr-xr-x 1 debwilson debwilson  3524 Mar 19  2020 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson 69457 Feb 15  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson  8942 Feb 15  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson  1780 Feb 16  2023 testclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  4796 Feb 17  2019 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson   560 Feb 12  2022 textindex.h
+-rwxr-xr-x 1 debwilson debwilson  3173 Feb 15  2018 utilities.h
+aikbarahira@cona:~/project2$ ls -l /home/class/csc3004/indexdemoclientserver/
+total 5544
+-rwxr-xr-x 1 debwilson debwilson   35660 Jan 19  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson    3040 Jan 19  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson    1279 Jan 19  2018 fifo.h
+-rwxr-xr-x 1 debwilson debwilson   20177 Jan 19  2018 indexclienttest
+-rwxr-xr-x 1 debwilson debwilson    1776 Jan 19  2018 indexclienttest.cpp
+-rwxr-xr-x 1 debwilson debwilson    2553 Jan 19  2018 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson     758 Jan 19  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson    1550 Jan 19  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson    1281 Jan 19  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson    5532 Jan 19  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson 5465397 Jan 19  2018 Shakespeare.txt
+-rwxr-xr-x 1 debwilson debwilson    1506 Jan 19  2018 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson    1288 Jan 19  2018 sslookupclientserver.html
+-rwxr-xr-x 1 debwilson debwilson    1296 Jan 19  2018 sslookupclientserver.html~
+-rwxr-xr-x 1 debwilson debwilson    3401 Jan 19  2018 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson   69457 Jan 19  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson    8942 Jan 19  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson    5272 Jan 19  2018 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson     729 Jan 19  2018 textindex.h
+-rwxr-xr-x 1 debwilson debwilson    3173 Jan 19  2018 utilities.h
+status|verse_text
+
+aikbarahira@cona:~/project2$ ls -l /home/class/csc3004/shakespearelookup/
+total 184
+-rwxr-xr-x 1 debwilson debwilson 35660 Feb 15  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson  3040 Feb 15  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson  1600 Feb 12  2022 fifo.h
+-rwxr-xr-x 1 debwilson debwilson  2568 Feb 16  2023 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson   758 Feb 15  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson  1135 Feb 12  2022 logfile.h
+-rwxr-xr-x 1 debwilson debwilson  1537 Feb 15  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson  1281 Feb 15  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson  5532 Feb 15  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson  2122 Feb 12  2022 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  1302 Feb 15  2018 sslookup.html
+-rwxr-xr-x 1 debwilson debwilson  3524 Mar 19  2020 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson 69457 Feb 15  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson  8942 Feb 15  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson  1780 Feb 16  2023 testclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  4796 Feb 17  2019 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson   560 Feb 12  2022 textindex.h
+-rwxr-xr-x 1 debwilson debwilson  3173 Feb 15  2018 utilities.h
+aikbarahira@cona:~/project2$ ls -l /home/class/csc3004/indexdemoclientserver/
+total 5544
+-rwxr-xr-x 1 debwilson debwilson   35660 Jan 19  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson    3040 Jan 19  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson    1279 Jan 19  2018 fifo.h
+-rwxr-xr-x 1 debwilson debwilson   20177 Jan 19  2018 indexclienttest
+-rwxr-xr-x 1 debwilson debwilson    1776 Jan 19  2018 indexclienttest.cpp
+-rwxr-xr-x 1 debwilson debwilson    2553 Jan 19  2018 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson     758 Jan 19  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson    1550 Jan 19  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson    1281 Jan 19  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson    5532 Jan 19  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson 5465397 Jan 19  2018 Shakespeare.txt
+-rwxr-xr-x 1 debwilson debwilson    1506 Jan 19  2018 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson    1288 Jan 19  2018 sslookupclientserver.html
+-rwxr-xr-x 1 debwilson debwilson    1296 Jan 19  2018 sslookupclientserver.html~
+-rwxr-xr-x 1 debwilson debwilson    3401 Jan 19  2018 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson   69457 Jan 19  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson    8942 Jan 19  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson    5272 Jan 19  2018 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson     729 Jan 19  2018 textindex.h
+-rwxr-xr-x 1 debwilson debwilson    3173 Jan 19  2018 utilities.h
+Examples:
+0|In the beginning, God created the heavens and the earth.
+1|Error: Book not found
+2|Error: Chapter not found
+3|Error: Verse not found
+
+- Status is a number indicating:
+  0 = Successaikbarahira@cona:~/project2$ ls -l /home/class/csc3004/shakespearelookup/
+total 184
+-rwxr-xr-x 1 debwilson debwilson 35660 Feb 15  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson  3040 Feb 15  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson  1600 Feb 12  2022 fifo.h
+-rwxr-xr-x 1 debwilson debwilson  2568 Feb 16  2023 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson   758 Feb 15  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson  1135 Feb 12  2022 logfile.h
+-rwxr-xr-x 1 debwilson debwilson  1537 Feb 15  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson  1281 Feb 15  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson  5532 Feb 15  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson  2122 Feb 12  2022 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  1302 Feb 15  2018 sslookup.html
+-rwxr-xr-x 1 debwilson debwilson  3524 Mar 19  2020 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson 69457 Feb 15  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson  8942 Feb 15  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson  1780 Feb 16  2023 testclient.cpp
+-rwxr-xr-x 1 debwilson debwilson  4796 Feb 17  2019 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson   560 Feb 12  2022 textindex.h
+-rwxr-xr-x 1 debwilson debwilson  3173 Feb 15  2018 utilities.h
+aikbarahira@cona:~/project2$ ls -l /home/class/csc3004/indexdemoclientserver/
+total 5544
+-rwxr-xr-x 1 debwilson debwilson   35660 Jan 19  2018 english_stem.h
+-rwxr-xr-x 1 debwilson debwilson    3040 Jan 19  2018 fifo.cpp
+-rwxr-xr-x 1 debwilson debwilson    1279 Jan 19  2018 fifo.h
+-rwxr-xr-x 1 debwilson debwilson   20177 Jan 19  2018 indexclienttest
+-rwxr-xr-x 1 debwilson debwilson    1776 Jan 19  2018 indexclienttest.cpp
+-rwxr-xr-x 1 debwilson debwilson    2553 Jan 19  2018 indexdemo.cpp
+-rwxr-xr-x 1 debwilson debwilson     758 Jan 19  2018 layout.css
+-rwxr-xr-x 1 debwilson debwilson    1550 Jan 19  2018 Makefile
+-rwxr-xr-x 1 debwilson debwilson    1281 Jan 19  2018 meta.h
+-rwxr-xr-x 1 debwilson debwilson    5532 Jan 19  2018 narrow_wide_string.h
+-rwxr-xr-x 1 debwilson debwilson 5465397 Jan 19  2018 Shakespeare.txt
+-rwxr-xr-x 1 debwilson debwilson    1506 Jan 19  2018 sslookupclient.cpp
+-rwxr-xr-x 1 debwilson debwilson    1288 Jan 19  2018 sslookupclientserver.html
+-rwxr-xr-x 1 debwilson debwilson    1296 Jan 19  2018 sslookupclientserver.html~
+-rwxr-xr-x 1 debwilson debwilson    3401 Jan 19  2018 sslookupserver.cpp
+-rwxr-xr-x 1 debwilson debwilson   69457 Jan 19  2018 stemming.h
+-rwxr-xr-x 1 debwilson debwilson    8942 Jan 19  2018 string_util.h
+-rwxr-xr-x 1 debwilson debwilson    5272 Jan 19  2018 textindex.cpp
+-rwxr-xr-x 1 debwilson debwilson     729 Jan 19  2018 textindex.h
+-rwxr-xr-x 1 debwilson debwilson    3173 Jan 19  2018 utilities.h
+
+  1 = Book not found
+  2 = Chapter not found
+  3 = Verse not found
+  4 = File error
+  5 = Other error
+- For successful lookups, verse_text contains the actual verse content.
+- For errors, verse_text contains an error message.
+- Fields are separated by the pipe character (|).
