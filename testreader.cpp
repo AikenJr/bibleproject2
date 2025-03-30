@@ -10,7 +10,6 @@
 
 using namespace std;
 
-// Function to display usage information
 void displayUsage(const string &programName) {
     cout << "Usage: " << programName << " <book> <chapter> <verse> [numVerses]" << endl;
     cout << "  book     - Book number (1-66)" << endl;
@@ -47,6 +46,7 @@ int main(int argc, char* argv[]) {
         cout << "Genesis 1:1 position: " << bible.getRefPosition(testRef1) << endl;
         cout << "John 3:16 position: " << bible.getRefPosition(testRef2) << endl;
         cout << "Revelation 22:21 position: " << bible.getRefPosition(testRef3) << endl;
+
         // Parse command line arguments
         int book = atoi(argv[1]);
         int chap = atoi(argv[2]);
@@ -59,14 +59,16 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
         }
-        // Display book name and chapter
+
         cout << "\n" << bible.getBookName(book) << " " << chap << endl;
         // Time the lookup process
         startTime = chrono::high_resolution_clock::now();
+
         // Look up requested verse(s)
         Ref ref(book, chap, verse);
         LookupResult status;
         if (numVerses == 1) {
+
             // Look up a single verse
             Verse v = bible.lookup(ref, status);
             if (status == SUCCESS) {
@@ -76,11 +78,11 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
         } else {
-            // Look up multiple verses
+            // Looking up multiple verses
             for (int i = 0; i < numVerses; i++) {
                 Ref currentRef = ref;
                 if (i > 0) {
-                    // Get next verse reference
+                    // next verse reference
                     currentRef = bible.next(currentRef, status);
                     if (status != SUCCESS) {
                         cout << "Error after " << i << " verses: " << bible.error(status) << endl;

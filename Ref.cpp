@@ -56,18 +56,17 @@ bool Ref::operator==(const Ref& r) const {
     return (book == r.book && chap == r.chap && verse == r.verse);
 }
 
-// Less than operator for map functionality
+// Less than operator
 bool Ref::operator<(const Ref& r) const {
 
-    // First compare book numbers
+//compares book numbers first
     if (book < r.book) return true;
     if (book > r.book) return false;
 
-    // Same book, compare chapter numbers
+//compares rge chapter numbers in the same book
     if (chap < r.chap) return true;
     if (chap > r.chap) return false;
 
-    // Same book and chapter, compare verse numbers
     return verse < r.verse;
 }
 

@@ -27,28 +27,27 @@ public:
     Bible(const string s);
     // Lookup a verse
     Verse lookup(Ref ref, LookupResult& status);
-    // Get next verse
+    // Get the next verse
     Verse nextVerse(LookupResult& status);
-    // Get book name from number
+    // book name from number
     string getBookName(int book);
-    // Get error message
+    // error message
     string error(LookupResult status);
-    // Display Bible info
+    // Displaythe Bible info
     void display();
-    // Get next/previous references
+
     Ref next(const Ref ref, LookupResult& status);
     Ref prev(const Ref ref, LookupResult& status);
 
     // Index-related functions
     int getIndexSize() const;                     // gets the number of entries in the index
-    long getLastIndexPosition() const;            // Getst the position of the last verse in the index
-    long getRefPosition(const Ref &ref) const;    // Gets the position of a reference in the file
+    long getLastIndexPosition() const;            //position of the last verse
+    long getRefPosition(const Ref &ref) const;
 private:
     string infile;
-    map<Ref, long> indexMap;                      // Map of references to file positions
-    // Helper functions
-    void buildIndex();                            // Build the reference index
-    Verse retrieveVerse(ifstream &infile, const Ref &ref, long position, LookupResult& status); // Get verse from position
+    map<Ref, long> indexMap;
+    void buildIndex();                            // Building the ref index
+    Verse retrieveVerse(ifstream &infile, const Ref &ref, long position, LookupResult& status);
 };
 
 #endif // BIBLE_H

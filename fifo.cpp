@@ -65,11 +65,9 @@ void Fifo::openread() {
 	return;
   }
 }
-  
 void Fifo::fifoclose() {
   close(fd);
   fd = 0;
-  
 }
 
 

@@ -17,26 +17,27 @@ Bible::Bible(const string s) {
     buildIndex();
 }
 
-// Build the reference index
+// Ref index
 void Bible::buildIndex() {
     ifstream in(infile.c_str());
     if (!in) {
-        cout << "Error: Unable to open Bible file for indexing: " << infile << endl;
+        cout << "Error: Unable to open Bible file for indexing:( : " << infile << endl;
         return;
     }
     string line;
     long position;
     // Process each line in the file
-    while (in.good()) {
-        // Get the current position in the file before reading the line
+
+while (in.good()) {
+        // Gets the current position in the file before reading the line
         position = in.tellg();
-        // Read the next line
+        // Reading the next line
         if (!getline(in, line)) {
             break;
         }
         Verse verse(line);
         Ref ref = verse.getRef();
-        // Only add to index if it's a valid reference
+
         if (ref.getBook() > 0) {
             indexMap[ref] = position;
         }
@@ -49,22 +50,18 @@ Verse Bible::retrieveVerse(ifstream &in, const Ref &ref, long position, LookupRe
         status = FILE_ERROR;
         return Verse();
     }
-    
     // Seek to the position in the file
     in.seekg(position);
-    
     // Read the verse line
     string line;
     if (getline(in, line)) {
         Verse verse(line);
-        
         // Verify this is the correct verse
         if (verse.getRef() == ref) {
             status = SUCCESS;
             return verse;
         }
     }
-    
     status = NO_VERSE;
     return Verse();
 }
@@ -77,7 +74,7 @@ Verse Bible::lookup(Ref ref, LookupResult& status) {
         if (ref.getBook() <= 0 || ref.getBook() > 66) {
             status = NO_BOOK;
         } else {
-//only checks for verse validity
+
             status = NO_VERSE;
         }
         return Verse();
